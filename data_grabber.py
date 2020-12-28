@@ -1,4 +1,3 @@
-# pip install -r requirements.txt
 # imports
 from influxdb import InfluxDBClient as db
 from datetime import datetime
@@ -27,8 +26,12 @@ def get_name_and_uri_by_index(index):
 def get_single_sensor_data_from_uri(sensor_uri):
     pass
 
+def read_all_sensors():
+    pass
+
 def append_to_values_dictionary(x):
-    values_dictionary.update({"%s" % (sensors[x]): values[x]})
+    for index, key in enumerate(sensors):
+        values_dictionary.update({key: values[index]})
 
 def send_to_db(data):
     client.write_points(data)
@@ -52,7 +55,14 @@ def create_and_send_json_dictionary(dictionary_in): # {'sensor0':value0, 'sensor
 
     send_to_db(local_dict)
 
-
-# just a dict and a list to store the data
 values_dictionary = {}
 values = []
+
+try:
+    read_all_sensors()
+    append_to_values_dictionary()
+    create_and_send_json_dictionary(values_dictionary)
+except KeyboardInterrupt:
+    print("Inerrupted")
+except Exception as e:
+    print(e)
