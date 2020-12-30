@@ -63,7 +63,7 @@ def create_and_send_json_dictionary(dictionary_in): # {'sensor0':value0, 'sensor
     iso = now.strftime("%Y-%m-%dT%H:%M:%SZ")
     local_dict = [
         {
-            "measurement": "eta-heizung",
+            "measurement": "etaheizung",
             "tags": {
                 "user": "raspi"
             },
