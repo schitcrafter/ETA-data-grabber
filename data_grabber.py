@@ -1,4 +1,5 @@
 # imports
+import sys
 from influxdb import InfluxDBClient as db
 from datetime import datetime
 from sensors import *
@@ -39,15 +40,21 @@ def get_single_sensor_value_and_unit_from_uri(sensor_uri):
 
     if ',' in value:
         value = value.replace(',', '.')
-
+    if 'x' in value:
+        value = sys.float_info.max
     return (float(value), unit)
 
 def read_all_sensors():
     pass
 
-def append_to_values_dictionary(x):
-    for index, key in enumerate(sensors):
-        values_dictionary.update({key: values[index]})
+def append_to_values_dictionary():
+    for index, value in enumerate(sensors):
+        key, _ = value
+        if values[index] != sys.float_info.max:
+            values_dictionary.update({key: values[index]})
+        else:
+            print('No valid value at index ' + str(index) + ' (Sensor: "%s")' % (key))
+
 
 def send_to_db(data):
     client.write_points(data)
@@ -59,7 +66,7 @@ def create_and_send_json_dictionary(dictionary_in): # {'sensor0':value0, 'sensor
         {
             "measurement": "eta-heizung",
             "tags": {
-                "user": "rpi"
+                "user": "raspi"
             },
             "time": iso,
             "fields": dictionary_in
@@ -75,17 +82,10 @@ values_dictionary = {}
 values = []
 
 if __name__ == '__main__':
-    for i in range(10):
+    for i in range(len(sensors)):
         name, uri = get_name_and_uri_by_index(i)
         value, unit = get_single_sensor_value_and_unit_from_uri(uri)
-        print(name + ",     Value: " + str(value) + "" + unit)
-
-
-    # try:
-    #     read_all_sensors()
-    #     append_to_values_dictionary()
-    #     create_and_send_json_dictionary(values_dictionary)
-    # except KeyboardInterrupt:
-    #     print("Inerrupted")
-    # except Exception as e:
-    #     print(e)
+        values.append(value)
+        print(name + ": " + str(value) + " " + unit)
+    append_to_values_dictionary()
+    create_and_send_json_dictionary(values_dictionary)
