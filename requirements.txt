@@ -1,1 +1,4 @@
 influxdb
+xmltodict
+urllib3
+datetime

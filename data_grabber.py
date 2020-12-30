@@ -3,7 +3,6 @@ import sys
 from influxdb import InfluxDBClient as db
 from datetime import datetime
 from sensors import *
-import random
 import urllib3
 import xmltodict
 
