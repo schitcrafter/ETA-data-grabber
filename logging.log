@@ -1,0 +1,15 @@
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 192.168.178.80:8080
+DEBUG:urllib3.connectionpool:http://192.168.178.80:8080 "GET /user/var//120/10601/0/0/12528 HTTP/1.1" 200 233
+DEBUG:urllib3.connectionpool:http://192.168.178.80:8080 "GET /user/var//120/10101/0/11060/0 HTTP/1.1" 200 235
+DEBUG:urllib3.connectionpool:http://192.168.178.80:8080 "GET /user/var//120/10101/0/0/12197 HTTP/1.1" 200 235
+DEBUG:urllib3.connectionpool:http://192.168.178.80:8080 "GET /user/var//120/10601/0/11327/0 HTTP/1.1" 200 235
+DEBUG:urllib3.connectionpool:http://192.168.178.80:8080 "GET /user/var//120/10601/0/11328/0 HTTP/1.1" 200 235
+DEBUG:urllib3.connectionpool:http://192.168.178.80:8080 "GET /user/var//120/10601/0/11329/0 HTTP/1.1" 200 235
+DEBUG:urllib3.connectionpool:http://192.168.178.80:8080 "GET /user/var//120/10601/0/0/12077 HTTP/1.1" 200 234
+DEBUG:urllib3.connectionpool:http://192.168.178.80:8080 "GET /user/var//40/10021/0/0/12077 HTTP/1.1" 200 233
+DEBUG:urllib3.connectionpool:http://192.168.178.80:8080 "GET /user/var//40/10021/0/0/12180 HTTP/1.1" 200 237
+DEBUG:urllib3.connectionpool:http://192.168.178.80:8080 "GET /user/var//40/10201/0/0/12015 HTTP/1.1" 200 237
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): localhost:8086
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (2): localhost:8086
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (3): localhost:8086
+ERROR:root:HTTPConnectionPool(host='localhost', port=8086): Max retries exceeded with url: /write?db=heizungsdaten (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000293539FA880>: Failed to establish a new connection: [WinError 10061] Es konnte keine Verbindung hergestellt werden, da der Zielcomputer die Verbindung verweigerte'))

@@ -5,9 +5,11 @@ from datetime import datetime
 from sensors import *
 import urllib3
 import xmltodict
+import logging
 
-# A variable for debug output
+# debugging settings
 debug = True;
+logging.basicConfig(filename='logging.log', level=logging.DEBUG)
 
 # influx
 host = "localhost"
@@ -51,7 +53,7 @@ def append_to_values_dictionary():
         key, _ = value
         if values[index] != sys.float_info.max:
             values_dictionary.update({key: values[index]})
-        else:
+        elif debug:
             print('No valid value at index ' + str(index) + ' (Sensor: "%s")' % (key))
 
 
@@ -74,17 +76,23 @@ def create_and_send_json_dictionary(dictionary_in): # {'sensor0':value0, 'sensor
     if debug:
         print("Dictionary sent to database:\n%s"%(local_dict))
         print(iso)
-
     send_to_db(local_dict)
+    logging.info('[%s] script ran successfully' % (now))
 
 values_dictionary = {}
 values = []
 
 if __name__ == '__main__':
-    for i in range(len(sensors)):
-        name, uri = get_name_and_uri_by_index(i)
-        value, unit = get_single_sensor_value_and_unit_from_uri(uri)
-        values.append(value)
-        print(name + ": " + str(value) + " " + unit)
-    append_to_values_dictionary()
-    create_and_send_json_dictionary(values_dictionary)
+    try:
+        for i in range(len(sensors)):
+            name, uri = get_name_and_uri_by_index(i)
+            value, unit = get_single_sensor_value_and_unit_from_uri(uri)
+            values.append(value)
+            if debug:
+                print(name + ": " + str(value) + " " + unit)
+        append_to_values_dictionary()
+    
+        create_and_send_json_dictionary(values_dictionary)
+        logging.info('')
+    except Exception as e:
+        logging.error(e)
